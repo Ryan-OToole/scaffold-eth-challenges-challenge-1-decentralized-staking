@@ -258,7 +258,7 @@ function App(props) {
 
   // ** keep track of a variable from the contract in the local React state:
   const balanceStaked = useContractReader(readContracts, "Staker", "balances", [address]);
-  console.log("💸 balanceStaked:", balanceStaked);
+  console.log("💸 balanceStaked:", Number(balanceStaked));
 
   // ** 📟 Listen for broadcast events
   const stakeEvents = useEventListener(readContracts, "Staker", "Stake", localProvider, 1);
@@ -557,10 +557,10 @@ function App(props) {
               <Button
                 type={balanceStaked ? "success" : "primary"}
                 onClick={() => {
-                  tx(writeContracts.Staker.stake({ value: ethers.utils.parseEther("0.5") }));
+                  tx(writeContracts.Staker.stake({ value: ethers.utils.parseEther("0.005") }));
                 }}
               >
-                🥩 Stake 0.5 ether!
+                🥩 Stake 0.005 ether!
               </Button>
             </div>
 

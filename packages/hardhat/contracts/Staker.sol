@@ -5,8 +5,17 @@ import "hardhat/console.sol";
 import "./ExampleExternalContract.sol";
 
 contract Staker {
-
+  // external contract that will hold funds
   ExampleExternalContract public exampleExternalContract;
+
+  // keep track of who has staked how much
+  mapping(address => uint256) public balances;
+
+  // staking threshold
+  uint256 public constant threshold = .01 ether;
+
+  // contracts events
+  event Stake(address addr, uint256 amount);
 
   constructor(address exampleExternalContractAddress) {
       exampleExternalContract = ExampleExternalContract(exampleExternalContractAddress);
@@ -14,6 +23,10 @@ contract Staker {
 
   // Collect funds in a payable `stake()` function and track individual `balances` with a mapping:
   // ( Make sure to add a `Stake(address,uint256)` event and emit it for the frontend <List/> display )
+  function stake() public payable {
+    balances[msg.sender] += msg.value;
+    emit Stake(msg.sender, msg.value);
+  }
 
 
   // After some `deadline` allow anyone to call an `execute()` function
